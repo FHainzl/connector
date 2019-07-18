@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
-import numpy as np
-
 import rospy
 import message_filters
-from connector.msg import state, action
+from connector.msg import State, Action
 from sensor_msgs.msg import JointState, TimeReference
 from franka_msgs.msg import FrankaState
 
@@ -24,12 +22,12 @@ class Connector(object):
                                                     JointState)
         self.panda_sub = message_filters.Subscriber(self.c["panda_state_topic"],
                                                     FrankaState)
-        self.action_sub = rospy.Subscriber(self.c["action_topic"], action,
+        self.action_sub = rospy.Subscriber(self.c["action_topic"], Action,
                                            callback=self.update_action)
 
         # Publishers
         self.panda_pub = PandaPublisher()
-        self.state_pub = rospy.Publisher(self.c["state_topic"], state,
+        self.state_pub = rospy.Publisher(self.c["state_topic"], State,
                                          queue_size=1)
 
         self.ts = message_filters.ApproximateTimeSynchronizer(
@@ -60,7 +58,7 @@ class Connector(object):
         x, y, z = pose[-4:-1]  # Last entry is 1 by convention
 
         # Create new message
-        state_msg = state()
+        state_msg = State()
         state_msg.header.stamp = current_stamp
         state_msg.q = q
         state_msg.dq = dq

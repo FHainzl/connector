@@ -50,8 +50,8 @@ catkin_python_setup()
 ## Generate messages in the 'msg' folder
 add_message_files(
     FILES
-    state.msg
-    action.msg
+    State.msg
+    Action.msg
 )
 
 ## Generate services in the 'srv' folder
