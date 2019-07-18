@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+
+import rospy
+
+from connector.clock import Clock
+from connector.config import config
+
+if __name__ == '__main__':
+    node_name = "clock"
+    rospy.init_node(node_name, anonymous=False)
+    clock = Clock(config)
+    clock.run()
