@@ -2,14 +2,14 @@
 
 import rospy
 
-from connector.connector_ import Connector
+from connector.StateConnector import StateConnector
 from connector.config import config as c
 
 if __name__ == '__main__':
-    node_name = "connector"
+    node_name = "state_connector"
     rospy.init_node(node_name, anonymous=False)
 
-    conn = Connector(c)
+    conn = StateConnector(c)
 
     try:
         rospy.spin()

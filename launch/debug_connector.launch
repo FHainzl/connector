@@ -3,9 +3,10 @@
     <node pkg="connector" type="dummy_states" name="dummy_states"
           output="screen"/>
 
-    <node pkg="connector" type="connector" name="connector" output="screen"/>
-    <!--    <node pkg="uber-rl" type="actor.py" name="actor" output="screen"/>-->
-    <!--    <node pkg="uber-rl" type="safetynet.py" name="safetynet" output="screen"/>-->
+    <node pkg="connector" type="state_connector" name="state_connector"
+          output="screen"/>
+    <node pkg="connector" type="action_connector" name="action_connector"
+          output="screen"/>
     <node pkg="connector" type="clock" name="clock" output="screen"/>
     <node pkg="mqtt_bridge" type="state_bridge" name="state_bridge"
           output="screen"/>

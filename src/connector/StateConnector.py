@@ -2,17 +2,15 @@
 
 import rospy
 import message_filters
-from connector.msg import State, Action
+
+from connector.msg import State
 from sensor_msgs.msg import JointState, TimeReference
 from franka_msgs.msg import FrankaState
 
-from panda_publisher import PandaPublisher
 
-
-class Connector(object):
+class StateConnector(object):
     def __init__(self, config):
         self.c = config
-        self.last_clock = None
         self.use_angular_vel = rospy.get_param("angular_vel", False)
 
         # Subscribers
@@ -22,14 +20,12 @@ class Connector(object):
                                                     JointState)
         self.panda_sub = message_filters.Subscriber(self.c["panda_state_topic"],
                                                     FrankaState)
-        self.action_sub = rospy.Subscriber(self.c["action_topic"], Action,
-                                           callback=self.update_action)
 
         # Publishers
-        self.panda_pub = PandaPublisher()
         self.state_pub = rospy.Publisher(self.c["state_topic"], State,
                                          queue_size=1)
 
+        # Unify clock, joints and angle for single callback
         self.ts = message_filters.ApproximateTimeSynchronizer(
             [self.clock_sub, self.angle_sub, self.panda_sub],
             slop=self.c["msg_proximity"],
@@ -68,20 +64,6 @@ class Connector(object):
 
         self.state_pub.publish(state_msg)
 
-    def update_action(self, action):
-        """
-        Update class member with latest action, or set to zero action otherwise
-        :return:
-        """
-        stamp = action.header.stamp.to_sec()
-        ddq = action.ddq
-
-        if rospy.get_param("debug", False):
-            rospy.loginfo("Executed action: " + str(ddq))
-        else:
-            raise NotImplementedError
-            # self.panda_pub.publish_effort(ddq)
-
     @staticmethod
     def print_times(clock, angle, panda):
         clock_time = clock.header.stamp
@@ -91,6 +73,3 @@ class Connector(object):
         rospy.loginfo("clock: " + str(clock_time.to_sec()))
         rospy.loginfo("Angle: " + str(angle_time.to_sec()))
         rospy.loginfo("Panda: " + str(panda_time.to_sec()) + '\n')
-
-    def __del__(self):
-        self.panda_pub.stop()
