@@ -68,12 +68,19 @@ class Connector(object):
 
         self.state_pub.publish(state_msg)
 
-    def update_action(self):
+    def update_action(self, action):
         """
         Update class member with latest action, or set to zero action otherwise
         :return:
         """
-        pass
+        stamp = action.header.stamp.to_sec()
+        ddq = action.ddq
+
+        if rospy.get_param("debug", False):
+            rospy.loginfo("Executed action: " + str(ddq))
+        else:
+            raise NotImplementedError
+            # self.panda_pub.publish_effort(ddq)
 
     @staticmethod
     def print_times(clock, angle, panda):
@@ -83,7 +90,7 @@ class Connector(object):
         rospy.loginfo("Now  : " + str(rospy.Time.now().to_sec()))
         rospy.loginfo("clock: " + str(clock_time.to_sec()))
         rospy.loginfo("Angle: " + str(angle_time.to_sec()))
-        rospy.loginfo("Panda: " + str(panda_time.to_sec())+'\n')
+        rospy.loginfo("Panda: " + str(panda_time.to_sec()) + '\n')
 
     def __del__(self):
         self.panda_pub.stop()

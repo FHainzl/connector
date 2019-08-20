@@ -8,6 +8,7 @@ config = {
 
     # Approximate Time Synchronizer
     # Cannot be more than 20% of 1/clock_freq for skip checking to work
+    # Why? Skip checking is done on the clock stamps.
     "msg_proximity": 0.05,
     "message_filter_q_size": 1,
 

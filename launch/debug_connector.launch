@@ -9,4 +9,7 @@
     <node pkg="connector" type="clock" name="clock" output="screen"/>
     <node pkg="mqtt_bridge" type="state_bridge" name="state_bridge"
           output="screen"/>
+    <node pkg="mqtt_bridge" type="action_bridge" name="action_bridge"
+          output="screen"/>
+    <param name="debug" type="bool" value="true"/>
 </launch>

@@ -51,7 +51,7 @@ if __name__ == '__main__':
     )
 
     r = rospy.Rate(hz=config["clock_freq"])
-    while True:
+    while not rospy.is_shutdown():
         state_dummy_pub.publish(dummy_state())
         angle_dummy_pub.publish(dummy_angle())
         r.sleep()
