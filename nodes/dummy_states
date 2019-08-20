@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+
+import rospy
+
+from sensor_msgs.msg import JointState
+from franka_msgs.msg import FrankaState
+
+from connector.config import config
+
+
+def dummy_angle():
+    current_stamp = rospy.Time.now()
+    angle_msg = JointState()
+    angle_msg.header.stamp = current_stamp
+    angle_msg.position = [-0.07677189126977804]
+    return angle_msg
+
+
+def dummy_state():
+    current_stamp = rospy.Time.now()
+    state_msg = FrankaState()
+    state_msg.header.stamp = current_stamp
+    state_msg.q = [-2.262874977141588, -0.043090667423743206, 0.768415386509477,
+                   -2.1231026574519642, 0.025131574987473003,
+                   2.0157984109918745,
+                   1.6023227050479871]
+    state_msg.dq = [-0.0019372332557027663, 0.0003019079579045404,
+                    0.0004876002723176127,
+                    0.0004923259879481908, 0.00023048867194757705,
+                    0.00021992958416870047,
+                    0.00018947558511782435]
+    state_msg.O_T_EE = [-0.999435077129496, -0.031913100479567365,
+                        0.010539479158845167,
+                        0.0, -0.03102576716567701, 0.996647579553644,
+                        0.07570339451863425,
+                        0.0, -0.01292007642933661, 0.07533363251326608,
+                        -0.9970746789671352, 0.0, 0.04391397200773055,
+                        -0.5245226360736636,
+                        0.4182421447210453, 1.0]
+    return state_msg
+
+
+if __name__ == '__main__':
+    node_name = "dummy_states"
+    rospy.init_node(node_name, anonymous=False)
+
+    state_dummy_pub = rospy.Publisher(
+        config["panda_state_topic"], FrankaState, queue_size=1)
+    angle_dummy_pub = rospy.Publisher(
+        config["angle_topic"], JointState, queue_size=1
+    )
+
+    r = rospy.Rate(hz=config["clock_freq"])
+    while True:
+        state_dummy_pub.publish(dummy_state())
+        angle_dummy_pub.publish(dummy_angle())
+        r.sleep()

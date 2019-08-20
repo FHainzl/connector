@@ -83,7 +83,7 @@ class Connector(object):
         rospy.loginfo("Now  : " + str(rospy.Time.now().to_sec()))
         rospy.loginfo("clock: " + str(clock_time.to_sec()))
         rospy.loginfo("Angle: " + str(angle_time.to_sec()))
-        rospy.loginfo("Panda: " + str(panda_time.to_sec()))
+        rospy.loginfo("Panda: " + str(panda_time.to_sec())+'\n')
 
     def __del__(self):
         self.panda_pub.stop()
