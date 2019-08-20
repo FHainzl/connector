@@ -1,16 +1,18 @@
 <launch>
-<!--    Launch Panda Subscriber Controller-->
+    <!--    Launch Panda Subscriber Controller-->
     <include
             file="$(env HOME)/catkin_ws/src/franka_ros/franka_example_controllers/launch/ros_subscriber_controller.launch">
         <arg name="robot_ip" value="172.16.0.2"/>
         <arg name="load_gripper" value="false"/>
     </include>
-<!--    Launch image to angle conversion-->
+    <!--    Launch image to angle conversion-->
     <include file="$(env HOME)/catkin_ws/src/uber-cv/launch/image2angle.launch">
         <arg name="angular_vel" value="false"/>
     </include>
     <node pkg="connector" type="connector" name="connector" output="screen"/>
-<!--    <node pkg="uber-rl" type="actor.py" name="actor" output="screen"/>-->
-<!--    <node pkg="uber-rl" type="safetynet.py" name="safetynet" output="screen"/>-->
+    <!--    <node pkg="uber-rl" type="actor.py" name="actor" output="screen"/>-->
+    <!--    <node pkg="uber-rl" type="safetynet.py" name="safetynet" output="screen"/>-->
     <node pkg="connector" type="clock" name="clock" output="screen"/>
+    <node pkg="mqtt_bridge" type="state_bridge" name="state_bridge"
+          output="screen"/>
 </launch>
