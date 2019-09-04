@@ -5,8 +5,8 @@ import rospy
 from connector.msg import Action
 from sensor_msgs.msg import TimeReference
 
-from panda_utilities.panda_publisher import PandaPublisher
-
+# from panda_utilities.panda_publisher import PandaPublisher
+from panda_utilities import PandaPublisher
 
 class ActionConnector(object):
     def __init__(self, config):
