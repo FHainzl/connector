@@ -2,7 +2,7 @@
 
 import rospy
 
-from connector.StateConnector import StateConnector
+from connector.state_connector import StateConnector
 from connector.config import config as c
 
 if __name__ == '__main__':

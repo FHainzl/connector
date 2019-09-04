@@ -4,12 +4,15 @@ import rospy
 
 from connector.msg import Action
 from sensor_msgs.msg import TimeReference
-from panda_publisher import PandaPublisher
+
+from panda_utilities.panda_publisher import PandaPublisher
 
 
 class ActionConnector(object):
     def __init__(self, config):
         self.c = config
+        self.current_action = None
+        self.current_stamp = None
 
         # Subscribers
         self.clock_sub = rospy.Subscriber(self.c["clock_topic"], TimeReference,
@@ -19,9 +22,6 @@ class ActionConnector(object):
 
         # Publishers
         self.panda_pub = PandaPublisher()
-
-        self.current_action = None
-        self.current_stamp = None
 
     def update_action(self, action):
         """

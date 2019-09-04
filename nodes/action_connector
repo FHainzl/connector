@@ -2,7 +2,7 @@
 
 import rospy
 
-from connector.ActionConnector import ActionConnector
+from connector.action_connector import ActionConnector
 from connector.config import config as c
 
 if __name__ == '__main__':

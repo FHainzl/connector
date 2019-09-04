@@ -19,5 +19,6 @@ class Clock(object):
             t = TimeReference()
             t.source = str(self.freq)
             t.header.stamp = rospy.Time.now()
-            self.pub.publish(t)
+            if rospy.get_param("RL_agent_active", True):
+                self.pub.publish(t)
             r.sleep()
